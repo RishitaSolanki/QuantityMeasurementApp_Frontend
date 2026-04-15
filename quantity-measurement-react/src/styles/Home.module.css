@@ -1,0 +1,46 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6c63ff 0%, #a78bfa 100%);
+  text-align: center;
+  padding: 2rem;
+}
+
+.hero h1 { font-size: 2.8rem; color: #fff; font-weight: 800; margin-bottom: 0.5rem; }
+.hero p  { color: rgba(255,255,255,0.85); font-size: 1.1rem; margin-bottom: 2.5rem; }
+
+.cards { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  width: 260px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  border: none;
+  text-align: center;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.18); }
+.icon  { font-size: 2.5rem; margin-bottom: 1rem; }
+.card h3 { font-size: 1.1rem; font-weight: 700; color: #2d2d2d; margin-bottom: 0.4rem; }
+.card p  { font-size: 0.85rem; color: #888; }
+
+.badge {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badgeGuest { background: #fff3cd; color: #856404; }
+.badgeAuth  { background: #d1e7dd; color: #0f5132; }
+
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2rem; }
+}
