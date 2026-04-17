@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: quantity-measurement-react
+    env: static
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 18
