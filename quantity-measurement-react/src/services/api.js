@@ -48,17 +48,13 @@ export const authApi = {
 };
 
 // ── Measurement ───────────────────────────────────────────────────────────────
-// All endpoints expect: { firstValue, firstUnit, secondValue, secondUnit, operation, measurementType }
-// CONVERT also needs ?targetUnit= query param
+// Backend expects: { ThisQuantityDTO: {Value, Unit, MeasurementType}, ThatQuantityDTO: {Value, Unit, MeasurementType} }
 
-function buildPayload(op, measurementType, firstValue, firstUnit, secondValue, secondUnit) {
+function buildQuantityDTO(value, unit, measurementType) {
   return {
-    firstValue:      parseFloat(firstValue),
-    firstUnit:       firstUnit,
-    secondValue:     parseFloat(secondValue) || 0,
-    secondUnit:      secondUnit,
-    operation:       op,
-    measurementType: measurementType,
+    Value: parseFloat(value),
+    Unit: unit,
+    MeasurementType: measurementType,
   };
 }
 
@@ -66,37 +62,50 @@ export const measureApi = {
   add(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
     return request('/api/v1/quantities/add', {
       method: 'POST',
-      body: JSON.stringify(buildPayload('ADD', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
+      body: JSON.stringify({
+        ThisQuantityDTO: buildQuantityDTO(firstValue, firstUnit, measurementType),
+        ThatQuantityDTO: buildQuantityDTO(secondValue, secondUnit, measurementType),
+      }),
     });
   },
 
   subtract(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
     return request('/api/v1/quantities/subtract', {
       method: 'POST',
-      body: JSON.stringify(buildPayload('SUBTRACT', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
+      body: JSON.stringify({
+        ThisQuantityDTO: buildQuantityDTO(firstValue, firstUnit, measurementType),
+        ThatQuantityDTO: buildQuantityDTO(secondValue, secondUnit, measurementType),
+      }),
     });
   },
 
   divide(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
     return request('/api/v1/quantities/divide', {
       method: 'POST',
-      body: JSON.stringify(buildPayload('DIVIDE', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
+      body: JSON.stringify({
+        ThisQuantityDTO: buildQuantityDTO(firstValue, firstUnit, measurementType),
+        ThatQuantityDTO: buildQuantityDTO(secondValue, secondUnit, measurementType),
+      }),
     });
   },
 
   compare(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
     return request('/api/v1/quantities/compare', {
       method: 'POST',
-      body: JSON.stringify(buildPayload('COMPARE', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
+      body: JSON.stringify({
+        ThisQuantityDTO: buildQuantityDTO(firstValue, firstUnit, measurementType),
+        ThatQuantityDTO: buildQuantityDTO(secondValue, secondUnit, measurementType),
+      }),
     });
   },
 
-  // CONVERT: secondUnit must be a valid unit (use targetUnit), targetUnit also sent as query param
   convert(measurementType, firstValue, firstUnit, targetUnit) {
-    const payload = buildPayload('CONVERT', measurementType, firstValue, firstUnit, 0, targetUnit);
-    return request(`/api/v1/quantities/convert`, {
+    return request('/api/v1/quantities/convert', {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        QuantityDTO: buildQuantityDTO(firstValue, firstUnit, measurementType),
+        TargetUnit: targetUnit,
+      }),
     });
   },
 };
