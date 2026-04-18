@@ -1,6 +1,4 @@
-const BASE = import.meta.env.VITE_API_BASE_URL
-  ? `${import.meta.env.VITE_API_BASE_URL}/api/v1`
-  : '/api/v1';
+const BASE = 'https://quantitymeasurementapp-igyb.onrender.com/api/v1';
 
 function getToken() {
   return localStorage.getItem('qm_token');
