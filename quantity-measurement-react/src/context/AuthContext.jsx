@@ -21,8 +21,12 @@ export function AuthProvider({ children }) {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const user = {
-        email: payload.email,
-        name: payload.name || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || payload.sub || 'User'
+        email: payload.email || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+        name: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || 
+              payload.name || 
+              payload.unique_name || 
+              payload.sub || 
+              'User'
       };
       localStorage.setItem('qm_user', JSON.stringify(user));
       setUser(user);
