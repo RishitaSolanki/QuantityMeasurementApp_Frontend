@@ -19,7 +19,9 @@ async function request(path, options = {}) {
   try {
     data = await res.json();
   } catch {
-    throw new Error(`Server error: ${res.status} ${res.statusText}`);
+    // If response is not JSON, use text
+    const text = await res.text();
+    data = { message: text };
   }
 
   if (!res.ok) {
