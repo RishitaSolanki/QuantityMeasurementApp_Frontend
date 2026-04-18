@@ -1,4 +1,4 @@
-const BASE = 'https://quantitymeasurementapp-igyb.onrender.com/api/api';
+const BASE = 'https://quantitymeasurementapp-igyb.onrender.com';
 
 function getToken() {
   return localStorage.getItem('qm_token');
