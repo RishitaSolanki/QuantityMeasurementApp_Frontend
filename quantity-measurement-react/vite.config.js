@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5212',
+        target: 'https://quantitymeasurementapp-igyb.onrender.com',
         changeOrigin: true,
       },
     },
