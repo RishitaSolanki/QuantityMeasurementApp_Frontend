@@ -28,9 +28,9 @@ export default function AuthModal({ onClose }) {
     e.preventDefault();
     setLoading(true); setMsg({ text: '', error: false });
     try {
-      const data = await authApi.register(regForm);
-      login(data);
-      onClose();
+      await authApi.register(regForm);
+      setMsg({ text: 'Account created successfully! Please login.', error: false });
+      setTab('login');
     } catch (err) {
       setMsg({ text: err.message, error: true });
     } finally { setLoading(false); }

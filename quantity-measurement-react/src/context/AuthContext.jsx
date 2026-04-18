@@ -8,11 +8,26 @@ export function AuthProvider({ children }) {
   const [isGuest, setIsGuest] = useState(() => sessionStorage.getItem('qm_guest') === 'true');
 
   const login = useCallback((data) => {
-    localStorage.setItem('qm_token', data.token);
-    localStorage.setItem('qm_user', JSON.stringify(data.user));
+    const token = data.Token || data.token; // Handle both capital T and lowercase
+    localStorage.setItem('qm_token', token);
+    
+    // Extract user info from JWT token
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const user = {
+        email: payload.email,
+        name: payload.name || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || payload.sub || 'User'
+      };
+      localStorage.setItem('qm_user', JSON.stringify(user));
+      setUser(user);
+    } catch {
+      // If JWT parsing fails, store minimal user info
+      localStorage.setItem('qm_user', JSON.stringify({ name: 'User' }));
+      setUser({ name: 'User' });
+    }
+    
     sessionStorage.removeItem('qm_guest');
-    setToken(data.token);
-    setUser(data.user);
+    setToken(token);
     setIsGuest(false);
   }, []);
 
