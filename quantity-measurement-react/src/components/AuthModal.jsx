@@ -10,7 +10,7 @@ export default function AuthModal({ onClose }) {
   const [msg, setMsg] = useState({ text: '', error: false });
 
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [regForm, setRegForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [regForm, setRegForm] = useState({ name: '', email: '', password: '' });
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -65,15 +65,9 @@ export default function AuthModal({ onClose }) {
           </form>
         ) : (
           <form onSubmit={handleRegister}>
-            <div className={s.row}>
-              <div className={s.group}>
-                <label>First Name</label>
-                <input type="text" placeholder="John" required value={regForm.firstName} onChange={e => setRegForm(p => ({ ...p, firstName: e.target.value }))} />
-              </div>
-              <div className={s.group}>
-                <label>Last Name</label>
-                <input type="text" placeholder="Doe" required value={regForm.lastName} onChange={e => setRegForm(p => ({ ...p, lastName: e.target.value }))} />
-              </div>
+            <div className={s.group}>
+              <label>Name</label>
+              <input type="text" placeholder="John Doe" required value={regForm.name} onChange={e => setRegForm(p => ({ ...p, name: e.target.value }))} />
             </div>
             <div className={s.group}>
               <label>Email</label>
