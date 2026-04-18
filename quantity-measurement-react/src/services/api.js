@@ -16,11 +16,11 @@ async function request(path, options = {}) {
   });
 
   let data;
+  const text = await res.text();
   try {
-    data = await res.json();
+    data = JSON.parse(text);
   } catch {
     // If response is not JSON, use text
-    const text = await res.text();
     data = { message: text };
   }
 
