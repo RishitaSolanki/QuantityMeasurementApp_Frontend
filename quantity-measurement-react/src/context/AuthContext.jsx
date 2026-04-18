@@ -3,7 +3,13 @@ import { createContext, useContext, useState, useCallback } from 'react';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('qm_user') || 'null'));
+  const [user, setUser] = useState(() => {
+  try {
+    return JSON.parse(localStorage.getItem('qm_user') || 'null');
+  } catch {
+    return null;
+  }
+});
   const [token, setToken] = useState(() => localStorage.getItem('qm_token') || null);
   const [isGuest, setIsGuest] = useState(() => sessionStorage.getItem('qm_guest') === 'true');
 
