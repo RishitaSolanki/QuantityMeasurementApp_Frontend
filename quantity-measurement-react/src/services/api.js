@@ -1,4 +1,4 @@
-const BASE = 'https://quantitymeasurementapp-igyb.onrender.com/api/v1';
+const BASE = 'https://quantitymeasurementapp-igyb.onrender.com/api/api';
 
 function getToken() {
   return localStorage.getItem('qm_token');
@@ -41,8 +41,8 @@ async function request(path, options = {}) {
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export const authApi = {
-  login:    (body) => request('/Auth/login',    { method: 'POST', body: JSON.stringify(body) }),
-  register: (body) => request('/Auth/register', { method: 'POST', body: JSON.stringify(body) }),
+  login:    (body) => request('/api/Auth/login',    { method: 'POST', body: JSON.stringify(body) }),
+  register: (body) => request('/api/Auth/signup',   { method: 'POST', body: JSON.stringify(body) }),
 };
 
 // ── Measurement ───────────────────────────────────────────────────────────────
@@ -62,28 +62,28 @@ function buildPayload(op, measurementType, firstValue, firstUnit, secondValue, s
 
 export const measureApi = {
   add(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
-    return request('/QuantityMeasurement/add', {
+    return request('/api/v1/quantities/add', {
       method: 'POST',
       body: JSON.stringify(buildPayload('ADD', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
     });
   },
 
   subtract(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
-    return request('/QuantityMeasurement/subtract', {
+    return request('/api/v1/quantities/subtract', {
       method: 'POST',
       body: JSON.stringify(buildPayload('SUBTRACT', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
     });
   },
 
   divide(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
-    return request('/QuantityMeasurement/divide', {
+    return request('/api/v1/quantities/divide', {
       method: 'POST',
       body: JSON.stringify(buildPayload('DIVIDE', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
     });
   },
 
   compare(measurementType, firstValue, firstUnit, secondValue, secondUnit) {
-    return request('/QuantityMeasurement/compare', {
+    return request('/api/v1/quantities/compare', {
       method: 'POST',
       body: JSON.stringify(buildPayload('COMPARE', measurementType, firstValue, firstUnit, secondValue, secondUnit)),
     });
@@ -92,7 +92,7 @@ export const measureApi = {
   // CONVERT: secondUnit must be a valid unit (use targetUnit), targetUnit also sent as query param
   convert(measurementType, firstValue, firstUnit, targetUnit) {
     const payload = buildPayload('CONVERT', measurementType, firstValue, firstUnit, 0, targetUnit);
-    return request(`/QuantityMeasurement/convert?targetUnit=${encodeURIComponent(targetUnit)}`, {
+    return request(`/api/v1/quantities/convert`, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
